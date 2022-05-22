@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  labels:
+    app: devops
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devops
+  template:
+    metadata:
+      labels:
+        app: devops
+    spec:
+      containers:
+      - name: devops
+        image: pregatit-spring-boot-app
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080      
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-deployment
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: devops
+  type: NodePort
